@@ -57,6 +57,7 @@
         .field-group { margin-bottom: 15px; }
         label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9em; }
 
+        /* Ajuste de altura uniforme para input y select */
         input, select, textarea {
             width: 100%;
             padding: 10px;
@@ -64,9 +65,10 @@
             border-radius: 4px;
             box-sizing: border-box;
             font-size: 14px;
+            height: 40px; /* Altura fija para emparejar select e input */
         }
 
-        textarea { resize: none; min-height: 50px; font-family: inherit; }
+        textarea { resize: none; min-height: 50px; height: auto; font-family: inherit; }
 
         .btn-submit {
             background-color: var(--primary);
@@ -177,10 +179,10 @@
                     <option value="No">No llego a fin de mes</option>
                 </select>
             </div>
-            <div style="display: flex; gap: 10px;">
+
+            <div style="display: flex; gap: 10px; align-items: flex-end;">
                 <div class="field-group" style="flex: 1;">
                     <label>¿Tenés cuenta bancaria?</label>
-                    
                     <select id="tiene_banco">
                         <option value="No">No</option>
                         <option value="Si">Sí</option>
@@ -218,12 +220,10 @@
     document.getElementById('censoForm').addEventListener('submit', function(e) {
         e.preventDefault();
 
-        // Bloquear botón para evitar múltiples envíos
         const btn = document.getElementById('btnEnviar');
         btn.disabled = true;
         btn.innerText = "Enviando...";
 
-        // Captura de datos corregida
         const nombre = document.getElementById('nombre').value;
         const email = document.getElementById('email').value;
         const edad = document.getElementById('edad').value;
@@ -254,7 +254,6 @@
         })
         .then(response => {
             if (response.ok) {
-                // Intercambiar pantallas
                 document.getElementById('formContent').style.display = 'none';
                 document.getElementById('successMessage').style.display = 'block';
             } else {
